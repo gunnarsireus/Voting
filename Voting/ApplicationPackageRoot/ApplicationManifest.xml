@@ -5,6 +5,7 @@
     <Parameter Name="VotingData_PartitionCount" DefaultValue="1" />
     <Parameter Name="VotingData_TargetReplicaSetSize" DefaultValue="3" />
     <Parameter Name="VotingWeb_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="VotingWeb_LocalCluster" DefaultValue="False" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -16,6 +17,9 @@
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="VotingWebPkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
+    <EnvironmentOverrides CodePackageRef="Code">
+      <EnvironmentVariable Name="LocalCluster" Value="[VotingWeb_LocalCluster]" />
+    </EnvironmentOverrides>
   </ServiceManifestImport>
   <DefaultServices>
     <!-- The section below creates instances of service types, when an instance of this 

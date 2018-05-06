@@ -38,7 +38,6 @@ namespace VotingWeb.Controllers
         {
             Uri serviceName = VotingWeb.GetVotingDataServiceName(this.serviceContext);
             Uri proxyAddress = this.GetProxyAddress(serviceName);
-
             ServicePartitionList partitions = await this.fabricClient.QueryManager.GetPartitionListAsync(serviceName);
 
             List<KeyValuePair<string, int>> result = new List<KeyValuePair<string, int>>();
@@ -113,9 +112,16 @@ namespace VotingWeb.Controllers
         /// <returns></returns>
         private Uri GetProxyAddress(Uri serviceName)
         {
-            return new Uri($"http://localhost:19081{serviceName.AbsolutePath}");
+            string LocalCluster = Environment.GetEnvironmentVariable("LocalCluster");
+            if (LocalCluster=="True")
+            {
+                return new Uri($"http://localhost:19081{serviceName.AbsolutePath}");
+            }
+            else
+            {
+                return new Uri($"https://localhost:19081{serviceName.AbsolutePath}");
+            }
         }
-
         /// <summary>
         /// Creates a partition key from the given name.
         /// Uses the zero-based numeric position in the alphabet of the first letter of the name (0-25).

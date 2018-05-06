@@ -20,7 +20,7 @@
                                     AzureActiveDirectory="true"
                                     ServerCertThumbprint="0123456789012345678901234567890123456789" />
   -->
-  <ClusterConnectionParameters ConnectionEndpoint="voting.northeurope.cloudapp.azure.com:19000" X509Credential="true" ServerCertThumbprint="11CC21DA4EFCCCA73C925FCF1D50FB928190F018" FindType="FindByThumbprint" FindValue="11CC21DA4EFCCCA73C925FCF1D50FB928190F018" StoreLocation="CurrentUser" StoreName="My" />
+  <ClusterConnectionParameters />
   <ApplicationParameterFile Path="..\ApplicationParameters\Cloud.xml" />
   <CopyPackageParameters CompressPackage="true" />
 </PublishProfile>

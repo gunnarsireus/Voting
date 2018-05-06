@@ -29,6 +29,7 @@ namespace VotingWeb
         /// <returns>The collection of listeners.</returns>
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
+
             return new ServiceInstanceListener[]
             {
         new ServiceInstanceListener(
@@ -39,12 +40,15 @@ namespace VotingWeb
                     (url, listener) =>
                     {
                         ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting Kestrel on {url}");
-
+                        HttpClientHandler handler = new HttpClientHandler()
+                        {
+                            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                        };
                         return new WebHostBuilder()
                             .UseKestrel()
                             .ConfigureServices(
                                 services => services
-                                    .AddSingleton<HttpClient>(new HttpClient())
+                                     .AddSingleton<HttpClient>(new HttpClient(handler))
                                     .AddSingleton<FabricClient>(new FabricClient())
                                     .AddSingleton<StatelessServiceContext>(serviceContext))
                             .UseContentRoot(Directory.GetCurrentDirectory())
